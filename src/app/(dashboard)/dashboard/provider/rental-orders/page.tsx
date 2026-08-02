@@ -1,19 +1,12 @@
 import * as React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import {
     Search,
-    MoreVertical,
     Clock,
     DollarSign,
     Download,
     ChevronLeft,
     ChevronRight,
-    MessageSquare,
     Truck,
-    Check,
-    Phone,
-    Mail,
     PackageCheck,
 } from "lucide-react";
 
@@ -22,19 +15,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
     Table,
     TableBody,
-    TableCell,
     TableHead,
     TableHeader,
     TableRow,

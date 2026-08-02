@@ -52,7 +52,7 @@ export default async function Home() {
                     />
                   </div>
                   <Select>
-                    <SelectTrigger className="w-full sm:w-[150px] h-12 bg-muted/40 border-none focus:ring-1 focus:ring-primary">
+                    <SelectTrigger className="w-full sm:w-37.5 h-12 bg-muted/40 border-none focus:ring-1 focus:ring-primary">
                       <SelectValue placeholder="Category" />
                     </SelectTrigger>
                     <SelectContent>

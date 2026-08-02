@@ -53,14 +53,14 @@ const GearListings = ({ gears }: { gears: IGearResponse[] }) => {
                                     <span className="flex items-center gap-1 font-medium text-amber-500">
                                         <Star className="w-3.5 h-3.5 fill-current" />
                                         {
-                                            gear?.reviews?.length > 0 ?
-                                                (
-                                                    gear?.reviews?.reduce(
-                                                        (sum: number, review: IReview) => sum + review?.rating,
+                                            gear?.reviews?.length > 0
+                                                ? (
+                                                    gear.reviews.reduce(
+                                                        (sum, review) => sum + Number(review?.rating),
                                                         0
-                                                    ) / gear?.reviews?.length
+                                                    ) / gear.reviews.length
                                                 ).toFixed(1)
-                                                : 0.0
+                                                : "0.0"
                                         }
                                     </span>
                                 </div>
@@ -117,7 +117,7 @@ const GearListings = ({ gears }: { gears: IGearResponse[] }) => {
                                                 {gear?.reviews?.length > 0
                                                     ? (
                                                         gear?.reviews?.reduce(
-                                                            (sum: number, review: IReview) => sum + review?.rating, 0
+                                                            (sum, review) => sum + Number(review?.rating), 0
                                                         ) / gear?.reviews?.length
                                                     ).toFixed(1)
                                                     : 0.0}

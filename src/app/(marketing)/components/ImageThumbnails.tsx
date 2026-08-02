@@ -33,7 +33,7 @@ const Gallery = ({ data }: { data: IGearResponse }) => {
                     <button
                         key={idx}
                         onClick={() => setSelectedImage(idx)}
-                        className={`relative aspect-[4/3] rounded-xl overflow-hidden bg-muted border-2 transition-all ${selectedImage === idx ? "border-primary ring-2 ring-primary/20" : "border-transparent opacity-70 hover:opacity-100"
+                        className={`relative aspect-4/3 rounded-xl overflow-hidden bg-muted border-2 transition-all ${selectedImage === idx ? "border-primary ring-2 ring-primary/20" : "border-transparent opacity-70 hover:opacity-100"
                             }`}
                     >
                         <Image unoptimized src={img} alt={`Thumbnail ${idx + 1}`} fill className="object-cover" />

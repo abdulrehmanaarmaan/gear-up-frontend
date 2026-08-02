@@ -62,11 +62,6 @@ const SidebarContent = ({ myAccount }: { myAccount: IMyAccount }) => {
                             <Icon className={`w-4 h-4 ${isActive ? "text-primary-foreground" :
                                 "text-muted-foreground"}`} />
                             {item.label}
-                            {/* {item.label === "My Rental Orders" && ( */}
-                            {/* // <Badge variant="secondary" className="ml-auto text-[10px] px-1.5 py-0.2 bg-background/20 text-current border-none"> */}
-                            {/* 3 */}
-                            {/* </Badge> */}
-                            {/* // )} */}
                         </Link>
                     );
                 })}

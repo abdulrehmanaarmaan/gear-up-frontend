@@ -7,9 +7,7 @@ import {
     Search,
     PlusCircle,
     ShoppingBag,
-    User,
     LogOut,
-    ShieldAlert,
     Menu
 } from "lucide-react";
 
@@ -34,16 +32,35 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { logout } from "@/app/(auth)/auth.actions";
+import { toast } from "sonner";
+import { usePathname, useRouter } from "next/navigation";
+import { sidebarMenuItems } from "@/app/(dashboard)/config/sidebarMenuItems";
+import { IUserAccount } from "@/app/(auth)/auth.types";
 
-export function Navbar() {
-    // Mock auth state & role (Replace with your actual Auth Session / Context)
-    // Possible values: null (Logged Out), "CUSTOMER", "PROVIDER", "ADMIN"
-    const user = {
-        name: "Alex Morgan",
-        email: "alex@example.com",
-        role: "CUSTOMER", // Toggle to "PROVIDER" or "ADMIN" to test role UI
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200"
-    };
+export function Navbar({ myAccount }: { myAccount: IUserAccount }) {
+
+
+    const { name, email, role, image } = myAccount || {}
+
+    const currentRoute = usePathname()
+
+    const router = useRouter()
+
+    const dashboardMenuItems = sidebarMenuItems[role as keyof typeof sidebarMenuItems]
+
+    const handleLogout = async () => {
+        const result = await logout()
+
+        if (result?.success) {
+
+            if (currentRoute.startsWith("/dashboard")) {
+                router.push("/auth/login?loggedOut=true");
+            } else {
+                toast.success("Logged out successfully.");
+            }
+        }
+    }
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md transition-all">
@@ -63,19 +80,19 @@ export function Navbar() {
                     {/* Desktop Main Navigation Links */}
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
                         <Link
-                            href="/gear"
+                            href="/gears"
                             className="text-muted-foreground hover:text-foreground transition-colors"
                         >
                             Explore Gear
                         </Link>
                         <Link
-                            href="/gear?category=camping"
+                            href="/gears?category=Camping"
                             className="text-muted-foreground hover:text-foreground transition-colors"
                         >
                             Camping
                         </Link>
                         <Link
-                            href="/gear?category=water"
+                            href="/gears?category=Water Sports"
                             className="text-muted-foreground hover:text-foreground transition-colors"
                         >
                             Water Sports
@@ -99,15 +116,15 @@ export function Navbar() {
                 <div className="flex items-center gap-3">
 
                     {/* Unauthenticated Actions */}
-                    {!user && (
+                    {!myAccount && (
                         <div className="hidden sm:flex items-center gap-2">
                             <Link href="/auth/login">
-                                <Button variant="ghost" size="sm" className="font-semibold">
+                                <Button variant="ghost" size="sm" className="cursor-pointer font-semibold">
                                     Sign In
                                 </Button>
                             </Link>
                             <Link href="/auth/register">
-                                <Button size="sm" className="font-semibold shadow-sm">
+                                <Button size="sm" className="font-semibold shadow-sm cursor-pointer">
                                     Get Started
                                 </Button>
                             </Link>
@@ -115,21 +132,21 @@ export function Navbar() {
                     )}
 
                     {/* Authenticated Actions */}
-                    {user && (
+                    {myAccount && (
                         <div className="flex items-center gap-3">
 
                             {/* Role-Based Quick Actions */}
-                            {user.role === "PROVIDER" && (
-                                <Link href="/dashboard/provider/gear/new" className="hidden sm:block">
-                                    <Button size="sm" className="gap-1.5 font-semibold bg-emerald-600 hover:bg-emerald-500 text-white">
+                            {role === "PROVIDER" && (
+                                <Link href="/dashboard/provider/add-gear" className="hidden sm:block">
+                                    <Button size="sm" className="cursor-pointer gap-1.5 font-semibold bg-emerald-600 hover:bg-emerald-500 text-white">
                                         <PlusCircle className="w-4 h-4" /> Add Gear
                                     </Button>
                                 </Link>
                             )}
 
-                            {user.role === "CUSTOMER" && (
+                            {role === "CUSTOMER" && (
                                 <Link href="/dashboard/customer" className="hidden sm:block">
-                                    <Button variant="outline" size="sm" className="gap-1.5 font-medium border-border/80">
+                                    <Button variant="outline" size="sm" className="cursor-pointer gap-1.5 font-medium border-border/80">
                                         <ShoppingBag className="w-4 h-4 text-primary" /> My Rentals
                                     </Button>
                                 </Link>
@@ -138,11 +155,11 @@ export function Navbar() {
                             {/* User Dropdown Menu */}
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0 ring-offset-background transition-all hover:ring-2 hover:ring-primary">
+                                    <Button variant="ghost" className="cursor-pointer relative h-9 w-9 rounded-full p-0 ring-offset-background transition-all hover:ring-2 hover:ring-primary">
                                         <Avatar className="h-9 w-9">
-                                            <AvatarImage src={user.avatar} alt={user.name} />
+                                            <AvatarImage src={image!} alt={name} />
                                             <AvatarFallback className="bg-primary/10 text-primary font-bold">
-                                                {user.name.substring(0, 2).toUpperCase()}
+                                                {name?.substring(0, 2).toUpperCase()}
                                             </AvatarFallback>
                                         </Avatar>
                                     </Button>
@@ -151,50 +168,32 @@ export function Navbar() {
                                 <DropdownMenuContent className="w-56" align="end" forceMount>
                                     <DropdownMenuLabel className="font-normal">
                                         <div className="flex flex-col space-y-1">
-                                            <p className="text-sm font-semibold leading-none">{user.name}</p>
-                                            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                                            <p className="text-sm font-semibold leading-none">{name}</p>
+                                            <p className="text-xs leading-none text-muted-foreground">{email}</p>
                                             <Badge variant="outline" className="w-fit text-[10px] mt-1.5 border-primary/40 text-primary uppercase">
-                                                {user.role}
+                                                {role}
                                             </Badge>
                                         </div>
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
 
                                     <DropdownMenuGroup>
-                                        {user.role === "CUSTOMER" && (
-                                            <DropdownMenuItem asChild className="cursor-pointer">
-                                                <Link href="/dashboard/customer">
-                                                    <ShoppingBag className="mr-2 h-4 w-4" /> Customer Dashboard
+                                        {dashboardMenuItems?.map((item) => (
+                                            <DropdownMenuItem
+                                                key={item.href}
+                                                asChild
+                                                className="cursor-pointer">
+                                                <Link href={item.href}>
+                                                    <item.icon className="mr-2 h-4 w-4" />
+                                                    {item.label}
                                                 </Link>
                                             </DropdownMenuItem>
-                                        )}
-
-                                        {user.role === "PROVIDER" && (
-                                            <DropdownMenuItem asChild className="cursor-pointer">
-                                                <Link href="/dashboard/provider">
-                                                    <PlusCircle className="mr-2 h-4 w-4" /> Provider Dashboard
-                                                </Link>
-                                            </DropdownMenuItem>
-                                        )}
-
-                                        {user.role === "ADMIN" && (
-                                            <DropdownMenuItem asChild className="cursor-pointer">
-                                                <Link href="/dashboard/admin">
-                                                    <ShieldAlert className="mr-2 h-4 w-4 text-emerald-500" /> Admin Moderation
-                                                </Link>
-                                            </DropdownMenuItem>
-                                        )}
-
-                                        <DropdownMenuItem asChild className="cursor-pointer">
-                                            <Link href="/profile">
-                                                <User className="mr-2 h-4 w-4" /> Account Settings
-                                            </Link>
-                                        </DropdownMenuItem>
+                                        ))}
                                     </DropdownMenuGroup>
 
                                     <DropdownMenuSeparator />
 
-                                    <DropdownMenuItem className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
+                                    <DropdownMenuItem onClick={() => handleLogout()} className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer">
                                         <LogOut className="mr-2 h-4 w-4" /> Log out
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
@@ -248,29 +247,29 @@ export function Navbar() {
                                 </div>
 
                                 {/* Mobile Auth Actions */}
-                                {!user ? (
+                                {!myAccount ? (
                                     <div className="flex flex-col gap-2 pt-4">
                                         <Link href="/auth/login" className="w-full">
-                                            <Button variant="outline" className="w-full justify-center">Sign In</Button>
+                                            <Button variant="outline" className="cursor-pointer w-full justify-center">Sign In</Button>
                                         </Link>
                                         <Link href="/auth/register" className="w-full">
-                                            <Button className="w-full justify-center">Get Started</Button>
+                                            <Button className="cursor-pointer w-full justify-center">Get Started</Button>
                                         </Link>
                                     </div>
                                 ) : (
                                     <div className="pt-2 flex flex-col gap-2">
-                                        <p className="text-xs font-semibold text-muted-foreground uppercase">Logged in as {user.role}</p>
-                                        {user.role === "CUSTOMER" && (
+                                        <p className="text-xs font-semibold text-muted-foreground uppercase">Logged in as {role}</p>
+                                        {role === "CUSTOMER" && (
                                             <Link href="/dashboard/customer">
-                                                <Button className="w-full justify-start" variant="secondary">My Rental Orders</Button>
+                                                <Button className="w-full justify-start" variant="secondary">Customer Dashboard</Button>
                                             </Link>
                                         )}
-                                        {user.role === "PROVIDER" && (
+                                        {role === "PROVIDER" && (
                                             <Link href="/dashboard/provider">
                                                 <Button className="w-full justify-start" variant="secondary">Provider Dashboard</Button>
                                             </Link>
                                         )}
-                                        {user.role === "ADMIN" && (
+                                        {role === "ADMIN" && (
                                             <Link href="/dashboard/admin">
                                                 <Button className="w-full justify-start" variant="secondary">Admin Console</Button>
                                             </Link>
@@ -284,6 +283,6 @@ export function Navbar() {
                 </div>
 
             </div>
-        </header>
+        </header >
     );
 }

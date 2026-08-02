@@ -1,89 +1,14 @@
-"use client";
-
 import * as React from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import {
     Compass,
-    Eye,
-    EyeOff,
-    Loader2,
-    ArrowRight,
-    CheckCircle2,
-    AlertCircle
 } from "lucide-react";
 
 // shadcn/ui components
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import LoginForm from "../../components/LoginForm";
 
-const loginSchema = z.object({
-    email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(1, "Password is required"),
-});
-
-export default function LoginPage() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const registered = searchParams.get("registered");
-
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [errorMessage, setErrorMessage] = React.useState(null);
-
-    const form = useForm({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-        },
-    });
-
-    async function onSubmit(values) {
-        setIsLoading(true);
-        setErrorMessage(null);
-
-        try {
-            // POST to backend API (e.g. POST /api/auth/login)
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message || "Invalid email or password");
-            }
-
-            // Dynamic redirect based on authenticating user role from response
-            if (data.user?.role === "PROVIDER") {
-                router.push("/dashboard/provider");
-            } else if (data.user?.role === "ADMIN") {
-                router.push("/dashboard/admin");
-            } else {
-                router.push("/dashboard/customer");
-            }
-        } catch (err) {
-            setErrorMessage(err.message || "Something went wrong. Please try again.");
-        } finally {
-            setIsLoading(false);
-        }
-    }
+export default function Login() {
 
     return (
         <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -118,101 +43,8 @@ export default function LoginPage() {
 
                     <CardContent className="space-y-4">
 
-                        {/* Registration Success Banner */}
-                        {registered && (
-                            <Alert className="border-emerald-500/50 bg-emerald-500/10 text-emerald-400">
-                                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                                <AlertTitle>Registration Successful!</AlertTitle>
-                                <AlertDescription className="text-xs">
-                                    Your account has been created. Please log in below.
-                                </AlertDescription>
-                            </Alert>
-                        )}
-
-                        {/* Error Banner */}
-                        {errorMessage && (
-                            <Alert variant="destructive">
-                                <AlertCircle className="h-4 w-4" />
-                                <AlertTitle>Authentication Error</AlertTitle>
-                                <AlertDescription className="text-xs">{errorMessage}</AlertDescription>
-                            </Alert>
-                        )}
-
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-
-                                {/* Email */}
-                                <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email Address</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    type="email"
-                                                    placeholder="john@example.com"
-                                                    autoComplete="email"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                {/* Password */}
-                                <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <div className="flex items-center justify-between">
-                                                <FormLabel>Password</FormLabel>
-                                                <Link
-                                                    href="/auth/forgot-password"
-                                                    className="text-xs text-primary hover:underline font-medium"
-                                                >
-                                                    Forgot password?
-                                                </Link>
-                                            </div>
-                                            <FormControl>
-                                                <div className="relative">
-                                                    <Input
-                                                        type={showPassword ? "text" : "password"}
-                                                        placeholder="••••••••"
-                                                        autoComplete="current-password"
-                                                        {...field}
-                                                    />
-                                                    <Button
-                                                        type="button"
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-muted-foreground"
-                                                        onClick={() => setShowPassword(!showPassword)}
-                                                    >
-                                                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                                                    </Button>
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <Button type="submit" className="w-full h-11 font-semibold text-base mt-2" disabled={isLoading}>
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Signing In...
-                                        </>
-                                    ) : (
-                                        <>
-                                            Sign In <ArrowRight className="ml-2 h-4 w-4" />
-                                        </>
-                                    )}
-                                </Button>
-                            </form>
-                        </Form>
+                        {/* Login Form */}
+                        <LoginForm />
                     </CardContent>
 
                     <CardFooter className="flex justify-center border-t border-border/40 py-4 bg-muted/20">

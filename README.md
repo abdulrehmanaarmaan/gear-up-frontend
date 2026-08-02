@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+1. Need to change hover description for the app.
+2. Not receiving the access and refresh tokens in production phase.
+3. Need to add loading.tsx and error.tsx.
+4. Need to make the dashboard home pages.
+5. Tomorrow morning develop the middleware and reusable function and then the other crud operations and then either dynamic data or github commits.
+6. Need to type empty states.
+7. Need to implement pagination for users and filters for gears.
+<!-- 8. Need to add teh payment-details route. -->
+8. Need to make .md file
+9. proxy not working, need to record the video.
+10. nEED TO ADD CACHE for required routes.

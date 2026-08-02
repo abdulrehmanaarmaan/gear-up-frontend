@@ -47,3 +47,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 8. Need to make .md file
 9. proxy not working, need to record the video.
 10. nEED TO ADD CACHE for required routes.
+11. Need to make customer dashboard page.

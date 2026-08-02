@@ -6,16 +6,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowRight, BadgeCheck, Calendar, ChevronRight, Search, ShieldCheck, SlidersHorizontal, Sparkles, Star, TrendingUp, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getGearCategories } from "../public.actions";
+import { ICategory } from "./marketing.interfaces";
 
 export default async function Home() {
+  const categories = await getGearCategories()
   return (
-
-    <div className="min-h-screen bg-background text-foreground space-y-20 pb-16">
+    < div className="min-h-screen bg-background text-foreground space-y-20 pb-16" >
 
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-slate-900 text-slate-50 pt-16 pb-24 lg:pt-28 lg:pb-32">
+      < section className="relative overflow-hidden bg-slate-900 text-slate-50 pt-16 pb-24 lg:pt-28 lg:pb-32" >
         {/* Background glow effects */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none opacity-30">
+        < div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full overflow-hidden pointer-events-none opacity-30" >
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/40 blur-3xl rounded-full" />
           <div className="absolute top-1/2 right-0 w-80 h-80 bg-blue-500/30 blur-3xl rounded-full" />
         </div>
@@ -112,10 +114,10 @@ export default async function Home() {
 
           </div>
         </div>
-      </section>
+      </section >
 
       {/* 2. CATEGORIES SECTION */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
+      < section className="container mx-auto px-4 sm:px-6 lg:px-8" >
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-primary">Explore by Activity</p>
@@ -128,31 +130,24 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
-          {[
-            { name: "Camping & Hiking", count: "120+ items", icon: "🏕️" },
-            { name: "Water Sports", count: "85+ items", icon: "🛶" },
-            { name: "Cycling & MTB", count: "60+ items", icon: "🚵" },
-            { name: "Winter Sports", count: "95+ items", icon: "⛷️" },
-            { name: "Climbing", count: "40+ items", icon: "🧗" },
-            { name: "Fitness & Training", count: "150+ items", icon: "🏋️" },
-          ].map((cat, idx) => (
-            <Link key={idx} href={`/gear?category=${encodeURIComponent(cat.name)}`}>
+          {categories.map((cat: ICategory) => (
+            <Link key={cat?.id} href={`/gears?category=${encodeURIComponent(cat?.name)}`}>
               <Card className="h-full hover:border-primary/50 hover:shadow-md transition-all duration-200 cursor-pointer group text-center p-4">
                 <CardContent className="p-0 flex flex-col items-center justify-center space-y-3">
-                  <span className="text-4xl transition-transform duration-200 group-hover:scale-110">{cat.icon}</span>
-                  <div>
-                    <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">{cat.name}</h3>
-                    <p className="text-xs text-muted-foreground mt-1">{cat.count}</p>
-                  </div>
+                  {/* <span className="text-4xl transition-transform duration-200 group-hover:scale-110">{cat.icon}</span> */}
+                  {/* <div> */}
+                  <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">{cat?.name}</h3>
+                  {/* <p className="text-xs text-muted-foreground mt-1">{cat.count}</p> */}
+                  {/* </div> */}
                 </CardContent>
               </Card>
             </Link>
           ))}
         </div>
-      </section>
+      </section >
 
       {/* 3. FEATURED GEAR GRID */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
+      < section className="container mx-auto px-4 sm:px-6 lg:px-8" >
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <Badge variant="secondary" className="mb-2">Top Rated</Badge>
@@ -220,10 +215,10 @@ export default async function Home() {
             </Card>
           ))}
         </div>
-      </section>
+      </section >
 
       {/* 4. HOW IT WORKS */}
-      <section className="bg-muted/40 py-16 border-y border-border/60">
+      < section className="bg-muted/40 py-16 border-y border-border/60" >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl font-bold tracking-tight">How GearUp Works</h2>
@@ -267,10 +262,10 @@ export default async function Home() {
 
           </div>
         </div>
-      </section>
+      </section >
 
       {/* 5. DUAL CTA SECTION (Customer & Provider) */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
+      < section className="container mx-auto px-4 sm:px-6 lg:px-8" >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
           {/* Renters CTA */}
@@ -315,10 +310,10 @@ export default async function Home() {
           </div>
 
         </div>
-      </section>
+      </section >
 
       {/* 6. STATS & SOCIAL PROOF */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      < section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6" >
         <div className="bg-card border border-border/80 rounded-2xl p-8 shadow-sm grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
           <div>
             <p className="text-3xl sm:text-4xl font-extrabold text-primary">5,000+</p>
@@ -337,7 +332,7 @@ export default async function Home() {
             <p className="text-sm text-muted-foreground mt-1">Customer Support</p>
           </div>
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 }

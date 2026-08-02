@@ -12,7 +12,7 @@ const Gallery = ({ data }: { data: IGearResponse }) => {
     return (
         <div className="space-y-3">
             {/* Main Image */}
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-muted border border-border/80 shadow-sm">
+            <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-muted border border-border/80 shadow-sm">
                 {
                     data?.images[selectedImage] &&
                     <Image

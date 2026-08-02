@@ -87,7 +87,7 @@ export default async function Home() {
 
             {/* Hero Image / Visual */}
             <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-md lg:max-w-none aspect-[4/5] rounded-3xl overflow-hidden border border-slate-700/50 shadow-2xl">
+              <div className="relative w-full max-w-md lg:max-w-none aspect-4/5 rounded-3xl overflow-hidden border border-slate-700/50 shadow-2xl">
                 <Image
                   unoptimized
                   src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=1000"

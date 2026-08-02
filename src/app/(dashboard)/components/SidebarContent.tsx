@@ -1,6 +1,5 @@
 "use client"
-import { IUserAccount } from '@/app/(auth)/auth.types';
-import { Badge } from '@/components/ui/badge';
+
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';

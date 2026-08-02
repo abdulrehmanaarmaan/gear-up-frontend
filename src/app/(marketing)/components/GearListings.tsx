@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { IGearResponse } from '@/app/(dashboard)/dashboard/provider/provider.types';
 import GearThumbnail from './GearThumbnail';
 import { useGearView } from '../context/GearViewProvider';
-import { IReview } from '../marketing.interfaces';
 
 const GearListings = ({ gears }: { gears: IGearResponse[] }) => {
 

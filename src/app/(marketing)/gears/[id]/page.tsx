@@ -43,7 +43,7 @@ export default async function GearDetailsPage({ params }: { params: Promise<{ id
                             {data?.category?.name}
                         </Link>
                         <ChevronRight className="w-3.5 h-3.5" />
-                        <span className="text-foreground font-medium truncate max-w-[200px] sm:max-w-none">{data?.title}</span>
+                        <span className="text-foreground font-medium truncate max-w-50 sm:max-w-none">{data?.title}</span>
                     </nav>
                 </div>
             </div>

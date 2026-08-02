@@ -21,42 +21,6 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getOrderDetails } from "@/app/(dashboard)/dashboard/customer/customer.actions";
 
-// Mock successful checkout transaction data
-const MOCK_SUCCESSFUL_ORDER = {
-    id: "ord-8091a2b",
-    transactionId: "txn_3Mv89xL2eZvKYlo21aBc89D",
-    createdAt: "2026-07-29T20:15:00.000Z",
-    gear: {
-        title: "MSR Hubba Hubba NX 2-Person Backpacking Tent",
-        slug: "msr-hubba-hubba-nx-2p",
-        category: "Camping & Hiking",
-        image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=300"
-    },
-    provider: {
-        name: "Summit Outfitters Co.",
-        rating: 4.9,
-        reviewsCount: 128,
-        phone: "+1 (555) 234-5678",
-        email: "support@summitoutfitters.com",
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100",
-        pickupAddress: "1240 Boulder Ave, Denver, CO 80202",
-        pickupHours: "Mon - Sat: 8:00 AM - 6:00 PM"
-    },
-    rentalStartDate: "2026-08-01T00:00:00.000Z",
-    rentalEndDate: "2026-08-06T00:00:00.000Z",
-    totalDays: 5,
-    pricePerDay: 28.00,
-    subtotal: 140.00,
-    serviceFee: 21.00,
-    damageProtectionFee: 12.00,
-    totalPaid: 173.00,
-    securityDepositHold: 150.00,
-    paymentMethod: {
-        brand: "Visa",
-        last4: "4242"
-    }
-};
-
 export default async function PaymentSuccessPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
 
     const { orderId } = await searchParams

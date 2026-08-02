@@ -9,13 +9,15 @@ import React, { useState } from 'react';
 const OrderFilters = () => {
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [activeTab, setActiveTab] = useState("ALL");
+    // const [activeTab, setActiveTab] = useState("ALL");
 
     return (
         <Card className="border-border/80 bg-card shadow-sm">
             <CardContent className="p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
                 {/* Status Tabs */}
-                <Tabs defaultValue="ALL" onValueChange={setActiveTab} className="w-full md:w-auto">
+                <Tabs defaultValue="ALL"
+                    // onValueChange={setActiveTab}
+                    className="w-full md:w-auto">
                     <TabsList className="bg-muted/60 p-1 h-9 border border-border/80">
                         <TabsTrigger value="ALL" className="text-xs font-semibold px-3 py-1">All Orders</TabsTrigger>
                         <TabsTrigger value="ACTIVE" className="text-xs font-semibold px-3 py-1">Currently Rented</TabsTrigger>

@@ -210,7 +210,7 @@ export function Navbar({ myAccount }: { myAccount: IUserAccount }) {
                             </Button>
                         </SheetTrigger>
 
-                        <SheetContent side="right" className="w-75 sm:w-[350px] p-6">
+                        <SheetContent side="right" className="w-75 sm:w-87.5 p-6">
                             <SheetHeader className="text-left mb-6">
                                 <SheetTitle className="flex items-center gap-2">
                                     <div className="p-1.5 rounded-lg bg-slate-900 text-primary border border-slate-800">

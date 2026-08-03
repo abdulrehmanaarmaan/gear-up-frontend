@@ -53,20 +53,21 @@ const GearToolbar = () => {
                 <div className="flex items-center gap-2">
                     <Select
                         defaultValue="newest"
-                        value={searchParams.get("sort") || "newest"}
-                        onValueChange={(value) => {
-                            const params = new URLSearchParams(searchParams);
-                            params.set("sort", value);
-                            router.replace(`/gears?${params.toString()}`);
-                        }}>
+                    // value={searchParams.get("sort") || "newest"}
+                    // onValueChange={(value) => {
+                    // const params = new URLSearchParams(searchParams);
+                    // params.set("sort", value);
+                    // router.replace(`/gears?${params.toString()}`);
+                    // }}
+                    >
                         <SelectTrigger className="cursor-pointer w-[170px] h-11 bg-card border-border/80 rounded-xl">
                             <SelectValue placeholder="Sort By" />
                         </SelectTrigger>
                         <SelectContent>
-                            {/* <SelectItem value="newest">Newest First</SelectItem> */}
+                            <SelectItem value="newest">Newest First</SelectItem>
                             <SelectItem value="price-asc">Price: Low to High</SelectItem>
                             <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                            {/* <SelectItem value="rating">Top Rated</SelectItem> */}
+                            <SelectItem value="rating">Top Rated</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>

@@ -1,5 +1,5 @@
-import NotFoundContent from '@/app/components/common/NotFoundContent';
 import React from 'react';
+import NotFoundContent from './components/common/NotFoundContent';
 
 const NotFound = () => {
     return <NotFoundContent />;

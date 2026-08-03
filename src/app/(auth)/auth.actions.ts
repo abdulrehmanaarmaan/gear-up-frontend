@@ -5,11 +5,11 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { IUserAccount, PrevState } from "./auth.types"
 import { loginSchema } from "./auth.schemas"
-import { verifyToken } from "@/lib/jwt"
+import { verifyToken } from "../../lib/jwt"
 import { JwtPayload } from "jsonwebtoken"
 import { revalidateTags } from "@/lib/revalidate"
 
-const { backendApiUrl } = env
+const { backendApiUrl, jwtAccessSecret } = env
 
 export const register = async (payload: IUserAccount) => {
 
@@ -75,6 +75,12 @@ export const login = async (redirectTo: string, prevState: PrevState, formData: 
         const { data } = await result
 
         const { accessToken, refreshToken, loggedUser } = await data
+
+        const verifiedToken = await verifyToken(accessToken, jwtAccessSecret!) as JwtPayload
+        // console.log('verifiedToken', verifiedToken)
+        if (verifiedToken?.errors || typeof verifiedToken === "string") {
+            throw new Error("The token provided is invalid.")
+        }
 
         cookieStore.set("accessToken", accessToken, {
             httpOnly: true,
@@ -167,10 +173,10 @@ export const provideNewAccessToken = async () => {
     let accessToken = cookieStore?.get("accessToken")?.value
 
     // console.log('access', accessToken)
-    const verifiedRefreshToken = refreshToken ? verifyToken(refreshToken, process.env.
+    const verifiedRefreshToken = refreshToken ? await verifyToken(refreshToken, process.env.
         JWT_REFRESH_SECRET!) as JwtPayload : null
     // console.log(verifiedRefreshToken)
-    const verifiedAccessToken = accessToken ? verifyToken(accessToken, process.env.
+    const verifiedAccessToken = accessToken ? await verifyToken(accessToken, process.env.
         JWT_ACCESS_SECRET!) as JwtPayload : null
 
     if (verifiedAccessToken?.errors || typeof verifiedAccessToken === "string") {

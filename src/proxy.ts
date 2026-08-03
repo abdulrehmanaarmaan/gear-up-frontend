@@ -2,9 +2,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { JwtPayload } from "jsonwebtoken"
 import { cookies } from 'next/headers'
-import { verifyToken } from '@/lib/jwt'
-import { renewAccessToken } from '@/app/(auth)/auth.actions'
-
+import { verifyToken } from './lib/jwt'
+import { renewAccessToken } from './app/(auth)/auth.actions'
 
 // This function can be marked `async` if using `await` inside
 
@@ -19,9 +18,9 @@ export async function proxy(request: NextRequest) {
 
     console.log(accessToken)
 
-    const verifiedRefreshToken = refreshToken ? await verifyToken(refreshToken, process.env.JWT_REFRESH_SECRET!) as JwtPayload : null
+    const verifiedRefreshToken = refreshToken ? verifyToken(refreshToken, process.env.JWT_REFRESH_SECRET!) as JwtPayload : null
 
-    let verifiedAccessToken = accessToken ? await verifyToken(accessToken, process.env.JWT_ACCESS_SECRET!) as JwtPayload : null
+    let verifiedAccessToken = accessToken ? verifyToken(accessToken, process.env.JWT_ACCESS_SECRET!) as JwtPayload : null
 
     const cookieStore = await cookies()
 
@@ -53,7 +52,7 @@ export async function proxy(request: NextRequest) {
             })
 
             accessToken = newAccessToken
-            verifiedAccessToken = await verifyToken(accessToken!, process.env.JWT_ACCESS_SECRET!) as JwtPayload
+            verifiedAccessToken = verifyToken(accessToken!, process.env.JWT_ACCESS_SECRET!) as JwtPayload
         }
     }
 

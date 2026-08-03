@@ -13,5 +13,9 @@ export default async function Gears({
     }>;
 }) {
 
-    return <GearServer searchParams={searchParams} />;
+    return (
+        <React.Suspense fallback={<>Loading...</>}>
+            <GearServer searchParams={searchParams} />
+        </React.Suspense>
+    );
 }

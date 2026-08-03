@@ -17,6 +17,8 @@ export async function proxy(request: NextRequest) {
     const refreshToken = request.cookies.get("refreshToken")?.value
     let accessToken = request.cookies.get("accessToken")?.value
 
+    console.log(accessToken)
+
     const verifiedRefreshToken = refreshToken ? await verifyToken(refreshToken, process.env.JWT_REFRESH_SECRET!) as JwtPayload : null
 
     let verifiedAccessToken = accessToken ? await verifyToken(accessToken, process.env.JWT_ACCESS_SECRET!) as JwtPayload : null
@@ -57,8 +59,8 @@ export async function proxy(request: NextRequest) {
 
     let userRole;
 
-    const isPublicRoute = PUBLIC_ROUTES.some(route => (route === pathname && pathname === "/") || pathname.startsWith(route))
-    const isAuthRoute = AUTH_ROUTES.some(route => route === pathname || pathname.startsWith(route))
+    const isPublicRoute = PUBLIC_ROUTES.some(route => (route === pathname && route === "/") || (pathname.startsWith(route) && route !== "/"))
+    const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route))
 
     if (!accessToken && !isPublicRoute && !isAuthRoute) {
         const loginUrl = new URL('/auth/login', request.url)
@@ -94,7 +96,6 @@ export async function proxy(request: NextRequest) {
             return NextResponse.redirect(new URL("/not-found", request.url))
         }
     }
-    console.log("Prxy executed for path:", pathname)
     return NextResponse.next()
 }
 

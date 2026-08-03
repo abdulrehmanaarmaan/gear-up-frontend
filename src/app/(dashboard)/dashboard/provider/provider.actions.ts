@@ -4,7 +4,7 @@ import { env } from "@/config/env"
 import { gearSchema, updateGearSchema } from "./provider.schemas"
 import { IGear, IUpdateGear } from "./provider.types"
 import { provideNewAccessToken } from "@/app/(auth)/auth.actions"
-import { revalidateTag } from "next/cache"
+import { revalidateTags } from "@/lib/revalidate"
 
 const { backendApiUrl } = env
 
@@ -62,9 +62,12 @@ export const updateOrderStatus = async (id: string, payload: unknown) => {
     const result = await response.json()
 
     if (result?.success) {
-        revalidateTag("provider-orders", {
-            expire: 0
-        })
+        revalidateTags([
+            "provider-orders",
+            "admin-orders",
+            "customer-orders"
+        ]
+        )
     }
 
     return result
@@ -99,9 +102,11 @@ export const addGear = async (payload: IGear) => {
     const result = await response.json()
 
     if (result?.success) {
-        revalidateTag("provider-gears", {
-            expire: 0
-        }
+        revalidateTags([
+            "provider-gears",
+            "admin-gears",
+            "gears"
+        ]
         )
     }
 
@@ -134,9 +139,11 @@ export const editMyGear = async (id: string, payload: IUpdateGear) => {
     const result = await response.json()
 
     if (result?.success) {
-        revalidateTag("provider-gears", {
-            expire: 0
-        }
+        revalidateTags([
+            "provider-gears",
+            "admin-gears",
+            "gears"
+        ]
         )
     }
 
@@ -157,9 +164,11 @@ export const removeMyGear = async (id: string) => {
     const result = await response.json()
 
     if (result?.success) {
-        revalidateTag("provider-gears", {
-            expire: 0
-        }
+        revalidateTags([
+            "provider-gears",
+            "admin-gears",
+            "gears"
+        ]
         )
     }
 

@@ -8,7 +8,7 @@ export const gearSchema = z.object({
     brand: z.string().min(2),
     model: z.string().optional(),
     condition: z.nativeEnum(GearCondition).optional(),
-    pricePerDay: z.coerce.number().min(50, "Daily rental price must be at least ৳50.").positive(),
+    pricePerDay: z.coerce.number().min(50, "Daily rental price must be at least $50.").positive(),
     quantity: z.coerce.number().int().positive(),
     location: z.string().min(5),
     images: z.array(z.string().url())

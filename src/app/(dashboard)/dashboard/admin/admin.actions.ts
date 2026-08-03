@@ -2,7 +2,7 @@
 
 import { provideNewAccessToken } from "@/app/(auth)/auth.actions"
 import { env } from "@/config/env"
-import { revalidateTag } from "next/cache"
+import { revalidateTags } from "@/lib/revalidate"
 
 const { backendApiUrl } = env
 
@@ -57,9 +57,10 @@ export const updateAccountStatus = async (id: string, payload: unknown) => {
     const result = await response.json()
 
     if (result?.success) {
-        revalidateTag("user-accounts", {
-            expire: 0
-        })
+        revalidateTags([
+            "user-accounts",
+            "my-account"
+        ])
     }
 
     return result
@@ -77,6 +78,12 @@ export const getGears = async () => {
 
     const result = await response.json()
 
+    if (result?.success) {
+        revalidateTags([
+            "admin-gears"
+        ])
+    }
+
     return result
 }
 
@@ -91,6 +98,12 @@ export const getRentalOrders = async () => {
     })
 
     const result = await response.json()
+
+    if (result?.success) {
+        revalidateTags([
+            "admin-rental-orders"
+        ])
+    }
 
     return result
 }

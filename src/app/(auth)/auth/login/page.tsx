@@ -44,7 +44,9 @@ export default function Login() {
                     <CardContent className="space-y-4">
 
                         {/* Login Form */}
-                        <LoginForm />
+                        <React.Suspense fallback={<>Loading...</>}>
+                            <LoginForm />
+                        </React.Suspense>
                     </CardContent>
 
                     <CardFooter className="flex justify-center border-t border-border/40 py-4 bg-muted/20">

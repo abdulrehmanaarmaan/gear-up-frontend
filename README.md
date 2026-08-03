@@ -40,7 +40,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 2. Not receiving the access and refresh tokens in production phase.
 3. Need to add loading.tsx and error.tsx.
 4. Need to make the dashboard home pages.
-5. Tomorrow morning develop the middleware and reusable function and then the other crud operations and then either dynamic data or github commits.
+5. Tomorrow morning develop the middleware and reusable function and then the other crud operations and then either dynamic data.
 6. Need to type empty states.
 7. Need to implement pagination for users and filters for gears.
 <!-- 8. Need to add teh payment-details route. -->
@@ -48,3 +48,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 9. proxy not working, need to record the video.
 10. nEED TO ADD CACHE for required routes.
 11. Need to make customer dashboard page.
+12. Need to change the currency in the zod.
+13. Typing icons for categories.

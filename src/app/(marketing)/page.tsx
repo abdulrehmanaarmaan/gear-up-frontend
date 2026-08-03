@@ -10,7 +10,7 @@ import { getGearCategories } from "../public.actions";
 import { ICategory } from "./marketing.interfaces";
 
 export default async function Home() {
-  const categories = await getGearCategories()
+  const { data } = await getGearCategories()
   return (
     < div className="min-h-screen bg-background text-foreground space-y-20 pb-16" >
 
@@ -130,7 +130,7 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
-          {categories.map((cat: ICategory) => (
+          {data?.map((cat: ICategory) => (
             <Link key={cat?.id} href={`/gears?category=${encodeURIComponent(cat?.name)}`}>
               <Card className="h-full hover:border-primary/50 hover:shadow-md transition-all duration-200 cursor-pointer group text-center p-4">
                 <CardContent className="p-0 flex flex-col items-center justify-center space-y-3">

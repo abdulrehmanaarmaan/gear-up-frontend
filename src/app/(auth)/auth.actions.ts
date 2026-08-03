@@ -7,6 +7,7 @@ import { IUserAccount, PrevState } from "./auth.types"
 import { loginSchema } from "./auth.schemas"
 import { verifyToken } from "@/lib/jwt"
 import { JwtPayload } from "jsonwebtoken"
+import { revalidateTags } from "@/lib/revalidate"
 
 const { backendApiUrl } = env
 
@@ -23,6 +24,11 @@ export const register = async (payload: IUserAccount) => {
     const result = await response.json()
 
     if (result?.success) {
+
+        revalidateTags([
+            "user-accounts"
+        ])
+
         redirect("/auth/login?registered=true", "replace")
     }
 
@@ -112,7 +118,10 @@ export const getMyAccount = async () => {
         headers: {
             Cookie: `accessToken=${accessToken}`
         },
-        cache: "no-store"
+        cache: "force-cache",
+        next: {
+            tags: ["my-account"]
+        }
     })
 
     const result = await response.json()
@@ -138,7 +147,7 @@ export const renewAccessToken = async () => {
 
     const refreshToken = cookieStore.get("refreshToken")?.value
 
-    const response = await fetch(`${env.backendApiUrl}/api/auth/refresh-token`, {
+    const response = await fetch(`${backendApiUrl}/api/auth/refresh-token`, {
         method: "POST",
         headers: {
             Cookie: `refreshToken=${refreshToken}`
@@ -180,6 +189,7 @@ export const provideNewAccessToken = async () => {
     if (expiredAccessToken && !expiredRefreshToken) {
         const result = await renewAccessToken()
         if (result?.success) {
+
             const refreshedToken = await result?.data
             cookieStore.set("accessToken", refreshedToken, {
                 httpOnly: true,

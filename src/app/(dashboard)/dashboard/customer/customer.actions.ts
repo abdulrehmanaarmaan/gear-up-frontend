@@ -3,9 +3,9 @@
 import { PrevState } from "@/app/(auth)/auth.types"
 import { createRentalSchema } from "@/app/(marketing)/marketing.schemas"
 import { env } from "@/config/env"
-import { redirect } from "next/navigation"
 import { reviewSchema } from "./customer.schemas"
 import { provideNewAccessToken } from "@/app/(auth)/auth.actions"
+import { revalidateTags } from "@/lib/revalidate"
 
 const { backendApiUrl } = env
 
@@ -30,6 +30,14 @@ export const createRentalOrder = async (payload: unknown) => {
 
     const result = await response.json()
 
+    if (result?.success) {
+        revalidateTags([
+            "customer-rental-orders",
+            "provider-rental-orders",
+            "admin-rental-orders"
+        ])
+    }
+
     return result
 }
 
@@ -40,6 +48,10 @@ export const getMyOrders = async () => {
     const response = await fetch(`${backendApiUrl}/api/rentals`, {
         headers: {
             Cookie: `accessToken=${accessToken}`
+        },
+        cache: "force-cache",
+        next: {
+            tags: ["customer-rental-orders"]
         }
     })
 
@@ -54,33 +66,11 @@ export const getOrderDetails = async (id: string) => {
 
     const response = await fetch(`${backendApiUrl}/api/rentals/${id}`, {
         headers: {
-            Cookie: `accessToken=${accessToken}`,
+            Cookie: `accessToken=${accessToken}`
         }
     })
 
     const result = await response.json()
-
-    return result
-}
-
-export const createPayment = async (payload: unknown) => {
-
-    const accessToken = await provideNewAccessToken()
-
-    const response = await fetch(`${backendApiUrl}/api/payments/create`, {
-        method: "POST",
-        headers: {
-            Cookie: `accessToken=${accessToken}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    })
-
-    const result = await response.json()
-
-    if (result?.success) {
-        redirect(result?.data?.checkoutUrl)
-    }
 
     return result
 }
@@ -92,6 +82,10 @@ export const getMyPayments = async () => {
     const response = await fetch(`${backendApiUrl}/api/payments`, {
         headers: {
             Cookie: `accessToken=${accessToken}`,
+        },
+        cache: "force-cache",
+        next: {
+            tags: ["customer-payments"]
         }
     })
 
@@ -170,8 +164,6 @@ export const checkoutRentalOrder = async (id: string) => {
     );
 
     const result = await response.json()
-
-    console.log(result)
 
     return result
 }

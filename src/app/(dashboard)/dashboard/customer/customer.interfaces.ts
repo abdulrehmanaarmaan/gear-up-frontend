@@ -32,3 +32,15 @@ export interface IRentalOrder {
     notes?: string
     createdAt: string
 }
+
+export interface IPayment {
+    id: string
+    createdAt: string
+    rentalOrder: IRentalOrder
+    rentalOrderId: string
+    status: string
+    amount: number
+    method: string
+    customer: IUserAccount
+    transactionId: string
+}

@@ -1,38 +1,31 @@
 "use client"
 
-import * as React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Home, ArrowLeft, Search, Compass } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { ArrowLeft, Compass, Home, Search } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
-export default function NotFound() {
+const NotFoundContent = () => {
 
     const router = useRouter()
 
     return (
         <div className="relative min-h-[85vh] w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden bg-background text-foreground animate-in fade-in-50 duration-300">
-
             {/* AMBIENT BACKGROUND GLOW ACCENTS */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10" />
             <div className="absolute top-1/3 left-1/3 w-64 h-64 bg-rose-500/5 rounded-full blur-2xl pointer-events-none -z-10" />
-
             <div className="w-full max-w-xl mx-auto space-y-6">
-
                 {/* MAIN 404 CARD */}
                 <Card className="border-border/80 bg-card/80 backdrop-blur-xl shadow-xl overflow-hidden relative">
-
                     {/* Top Decorative Border Accent */}
                     <div className="h-1.5 w-full bg-gradient-to-r from-primary/40 via-primary to-primary/40" />
-
                     <CardContent className="p-6 sm:p-10 text-center space-y-6">
-
                         {/* BADGE / ICON */}
                         <div className="inline-flex items-center justify-center p-3.5 rounded-2xl bg-primary/10 text-primary ring-8 ring-primary/5">
                             <Compass className="w-8 h-8 animate-spin-slow" />
                         </div>
-
                         {/* ERROR CODE & HEADING */}
                         <div className="space-y-2">
                             <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground font-bold">
@@ -45,7 +38,6 @@ export default function NotFound() {
                                 The page or resource you are looking for doesn't exist, has been removed, or is temporarily unavailable.
                             </p>
                         </div>
-
                         {/* ACTION BUTTONS */}
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
                             <Button
@@ -59,7 +51,6 @@ export default function NotFound() {
                                     Return Home
                                 </Link>
                             </Button>
-
                             <Button
                                 onClick={() => router.back()}
                                 variant="outline"
@@ -70,7 +61,6 @@ export default function NotFound() {
                                 Go Back
                             </Button>
                         </div>
-
                         {/* QUICK HELPFUL LINKS */}
                         <div className="pt-6 border-t border-border/60 space-y-3">
                             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -92,11 +82,11 @@ export default function NotFound() {
                                 </Link>
                             </div>
                         </div>
-
                     </CardContent>
                 </Card>
-
             </div>
         </div >
     );
-}
+};
+
+export default NotFoundContent;
